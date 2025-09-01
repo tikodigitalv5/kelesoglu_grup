@@ -1,0 +1,67 @@
+INFO - 2025-07-16 09:28:15 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 09:28:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 09:28:18 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 09:29:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-07-16 09:29:35 --> Undefined variable $cronId
+in APPPATH/Controllers/TikoERP/DopigoApi.php on line 392.
+ 1 APPPATH/Controllers/TikoERP/DopigoApi.php(392): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $cronId', '/Users/tikoapp/Documents/GitHub/tikoportal_v3/app/Controllers/TikoERP/DopigoApi.php', 392)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\DopigoApi->DopigoSiparis()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\DopigoApi))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+INFO - 2025-07-16 09:29:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 09:39:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+ERROR - 2025-07-16 09:45:25 --> Dopigo Api Hata: 547
+INFO - 2025-07-16 09:45:26 --> WhatsApp Mesajı: 🚨 *Dopigo Sipariş Senkronizasyon Bildirimi*
+
+📅 Tarih Aralığı: 14.07.2025 00:39:00 - 14.07.2025 00:39:00
+
+❌ *Aktarılamayan Siparişler:*
+
+📦 *Sipariş No:* PTT-BDO1C142J-140725
+🔴 *Hata:*  PTT-BDO1C142J-140725 Numaralı Sipariş sistemde bulunamadı
+
+---------------------------
+
+📦 *Sipariş No:* PTT-B3EE0DJ12-140725
+🔴 *Hata:*  PTT-B3EE0DJ12-140725 Numaralı Sipariş sistemde bulunamadı
+
+---------------------------
+
+📦 *Sipariş No:* PTT-B3CE3B52H-140725
+🔴 *Hata:*  PTT-B3CE3B52H-140725 Numaralı Sipariş sistemde bulunamadı
+
+---------------------------
+
+📦 *Sipariş No:* PTT-B11OQ691N-140725
+🔴 *Hata:*  PTT-B11OQ691N-140725 Numaralı Sipariş sistemde bulunamadı
+
+---------------------------
+
+⚠️ Toplam 4 adet sipariş aktarılamamıştır.
+INFO - 2025-07-16 09:45:26 --> WhatsApp API Yanıtı: {"data":{"status":"success","instanceId":"7842","data":{"_data":{"id":{"fromMe":true,"remote":"905324086232@c.us","id":"3EB02B516DA269E463C9A6","_serialized":"true_905324086232@c.us_3EB02B516DA269E463C9A6"},"viewed":false,"body":"🚨 *Dopigo Sipariş Senkronizasyon Bildirimi*\n\n📅 Tarih Aralığı: 14.07.2025 00:39:00 - 14.07.2025 00:39:00\n\n❌ *Aktarılamayan Siparişler:*\n\n📦 *Sipariş No:* PTT-BDO1C142J-140725\n🔴 *Hata:*  PTT-BDO1C142J-140725 Numaralı Sipariş sistemde bulunamadı\n\n---------------------------\n\n📦 *Sipariş No:* PTT-B3EE0DJ12-140725\n🔴 *Hata:*  PTT-B3EE0DJ12-140725 Numaralı Sipariş sistemde bulunamadı\n\n---------------------------\n\n📦 *Sipariş No:* PTT-B3CE3B52H-140725\n🔴 *Hata:*  PTT-B3CE3B52H-140725 Numaralı Sipariş sistemde bulunamadı\n\n---------------------------\n\n📦 *Sipariş No:* PTT-B11OQ691N-140725\n🔴 *Hata:*  PTT-B11OQ691N-140725 Numaralı Sipariş sistemde bulunamadı\n\n---------------------------\n\n⚠️ Toplam 4 adet sipariş aktarılamamıştır.","type":"chat","t":1752648326,"from":{"server":"c.us","user":"908504662274","_serialized":"908504662274@c.us"},"to":{"server":"c.us","user":"905324086232","_serialized":"905324086232@c.us"},"ack":0,"isNewMsg":true,"star":false,"kicNotified":false,"isFromTemplate":false,"pollInvalidated":false,"isSentCagPollCreation":false,"latestEditMsgKey":null,"latestEditSenderTimestampMs":null,"mentionedJidList":[],"groupMentions":[],"isEventCanceled":false,"eventInvalidated":false,"isVcardOverMmsDocument":false,"isForwarded":false,"isQuestion":false,"labels":[],"hasReaction":false,"disappearingModeInitiator":"chat","disappearingModeTrigger":"chat_settings","productHeaderImageRejected":false,"lastPlaybackProgress":0,"isDynamicReplyButtonsMsg":false,"isCarouselCard":false,"parentMsgId":null,"callSilenceReason":null,"isVideoCall":false,"callDuration":null,"callCreator":null,"callParticipants":null,"isCallLink":null,"callLinkToken":null,"isMdHistoryMsg":false,"stickerSentTs":0,"isAvatar":false,"lastUpdateFromServerTs":0,"invokedBotWid":null,"bizBotType":null,"botResponseTargetId":null,"botPluginType":null,"botPluginReferenceIndex":null,"botPluginSearchProvider":null,"botPluginSearchUrl":null,"botPluginSearchQuery":null,"botPluginMaybeParent":false,"botReelPluginThumbnailCdnUrl":null,"botMessageDisclaimerText":null,"botMsgBodyType":null,"requiresDirectConnection":null,"bizContentPlaceholderType":null,"hostedBizEncStateMismatch":false,"senderOrRecipientAccountTypeHosted":false,"placeholderCreatedWhenAccountIsHosted":false,"links":[]},"id":{"fromMe":true,"remote":"905324086232@c.us","id":"3EB02B516DA269E463C9A6","_serialized":"true_905324086232@c.us_3EB02B516DA269E463C9A6"},"ack":0,"hasMedia":false,"body":"🚨 *Dopigo Sipariş Senkronizasyon Bildirimi*\n\n📅 Tarih Aralığı: 14.07.2025 00:39:00 - 14.07.2025 00:39:00\n\n❌ *Aktarılamayan Siparişler:*\n\n📦 *Sipariş No:* PTT-BDO1C142J-140725\n🔴 *Hata:*  PTT-BDO1C142J-140725 Numaralı Sipariş sistemde bulunamadı\n\n---------------------------\n\n📦 *Sipariş No:* PTT-B3EE0DJ12-140725\n🔴 *Hata:*  PTT-B3EE0DJ12-140725 Numaralı Sipariş sistemde bulunamadı\n\n---------------------------\n\n📦 *Sipariş No:* PTT-B3CE3B52H-140725\n🔴 *Hata:*  PTT-B3CE3B52H-140725 Numaralı Sipariş sistemde bulunamadı\n\n---------------------------\n\n📦 *Sipariş No:* PTT-B11OQ691N-140725\n🔴 *Hata:*  PTT-B11OQ691N-140725 Numaralı Sipariş sistemde bulunamadı\n\n---------------------------\n\n⚠️ Toplam 4 adet sipariş aktarılamamıştır.","type":"chat","timestamp":1752648326,"from":"908504662274@c.us","to":"905324086232@c.us","deviceType":"android","isForwarded":false,"forwardingScore":0,"isStatus":false,"isStarred":false,"fromMe":true,"hasQuotedMsg":false,"hasReaction":false,"vCards":[],"mentionedIds":[],"groupMentions":[],"isGif":false,"links":[]}},"links":{"self":"https://waapi.app/api/v1/instances/7842/client/action/send-message"},"status":"success"}
+INFO - 2025-07-16 09:45:26 --> HTTP Kodu: 200
+INFO - 2025-07-16 09:45:26 --> Dopigo Api Basarili: 547
+INFO - 2025-07-16 09:45:27 --> Başarılı sipariş bulunamadı. Order Numara: 547
+INFO - 2025-07-16 09:47:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:58:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:58:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:58:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:58:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:58:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:58:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:58:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:59:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 15:59:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 16:58:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 16:58:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 16:58:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 16:58:48 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 16:58:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 16:58:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 17:01:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 17:01:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 17:21:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 17:39:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-16 17:39:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

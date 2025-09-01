@@ -1,0 +1,96 @@
+
+
+
+
+
+@media (max-width: 575.98px){
+    .modal-fullscreen-sm-down {
+    
+        height: auto!important;
+    
+    }
+    .navbar-top{
+        justify-content: space-between!important;
+    }
+    a.web-logo.nav-logo{
+        margin-left: -22px!important;
+    }
+    .counter .qty-left-minus, .counter .qty-right-plus{
+        width:70px!important
+    }
+    .PCGizle{
+        display:flex!important;
+    }
+    .cart_product_image {
+        position: relative;
+        width: 74px!important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    
+    
+    
+    }
+    .fa.fa-comment-o{
+    
+        font-size: 20px!important;
+        margin-right: 2px!important;
+    }
+    i.fa.fa-comments{
+        font-size: 17px!important;
+    }
+    
+    .PCGizle{
+        display:none;
+    }
+    
+    html{
+            overflow-x: hidden!important;
+    }
+    
+    .hovers:hover{color: #ed2024!important;background:white!important;}.yorumlarDiv{height: 300px;overflow: scroll;overflow-x: auto;}.profile_menu {border: 0;background: none;padding : 0 ;}.profile_menu::after {border-top: 0.3em solid #fff !important;display : none ;}@media (max-width:500px) {.rightside-box {padding-right: 15px;}}@media (max-width:1025px) {.header_pad{padding: 0 20px !important;padding-right: 0 !important;}button.buy-button.buy-button-2.btn.btn-cart {height: 50px !important;width: 50px !important;}}.profile_m {top: 10px !important;right: -20px;border: 0;background: var(--site_color) !important;border-radius: 0;color: #fff !important;border-top: 1px solid #fff;border-radius: 0 0 10px 10px;padding: 10px;}.profile_m a.dropdown-item {color: #fff ;}.profile_m.dropdown-item.active, .profile_m .dropdown-item:active {color: var(--site_color) !important;text-decoration: none;background-color: #ffffff;border-radius: 5px;}.profile_m .dropdown-item:hover, .profile_m .dropdown-item:focus {color: var(--site_color) !important;background-color: #ffffff;border-radius: 5px;}.lang_menu {border: 0;background: none;padding : 0 ;}.lang_menu::after {border-top: 0.3em solid #fff !important;display : none ;}.lang_m {top: 21px !important;right: -20px;border: 1px solid;background: #ffffff !important;border-radius: 0;color: var(--site_color) !important;border-top: 1px solid #fff;border-radius: 0 0 10px 10px;padding: 10px;max-width: 70px !important;min-width: 70px !important;}.lang_m a.dropdown-item {color: var(--site_color);padding: 5px 15px;}.lang_m .dropdown-item.active, .lang_m .dropdown-item:active {color: #ffffff !important;text-decoration: none;background-color: var(--site_color);border-radius: 5px;}.lang_m .dropdown-item:hover, .lang_m .dropdown-item:focus {color: #ffffff !important;background-color: var(--site_color);border-radius: 5px;}
+    
+    div.dt-buttons{position:absolute;right:0px;    top: -66.5px;z-index:9999;background:var(--site_color);color:#fff!important;border-radius:4px;height:auto;padding:0;margin:0;line-height:0}
+    .btn-secondary{    margin:0;  color:white; padding:10px 10px;}
+    .btn-secondary:hover{margin:0;}
+    .dt-button-collection{height: 100px!important;}
+    .dt-button-collection .dt-button{ padding: 13px!important; display:flex!important; align-items: center!important;}
+    @media (min-width: 768px) and (max-width: 1224px) {
+        div.dt-buttons{    width: 7%;  top: -63.5px;}
+        
+    }
+    @media (max-width: 1120px){
+        .mobileGizle{display:none!important;}
+    }
+    @media (max-width: 968px){
+        .label{padding:3px!important;}
+    }
+    
+    .label{
+        position: absolute;
+        color: white;
+        padding: 10px;
+        cursor: pointer;
+        background: var(--theme-color);
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    table.dataTable thead>tr>th.sorting, table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_desc, table.dataTable thead>tr>th.sorting_asc_disabled, table.dataTable thead>tr>th.sorting_desc_disabled, table.dataTable thead>tr>td.sorting, table.dataTable thead>tr>td.sorting_asc, table.dataTable thead>tr>td.sorting_desc, table.dataTable thead>tr>td.sorting_asc_disabled, table.dataTable thead>tr>td.sorting_desc_disabled{
+        display:none;
+    }
+    table.dataTable{
+        width: 100%!important;
+    }
+    @media screen and (max-width: 767px){
+        div.dt-buttons {
+            float: right;
+            width: 11%;
+            text-align: right!important;
+            margin-bottom: 0.5em;
+            right: 0px!important;
+            padding: 0px!important;
+            top:-63px
+        }
+    }

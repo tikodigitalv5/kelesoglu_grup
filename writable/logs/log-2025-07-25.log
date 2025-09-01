@@ -1,0 +1,263 @@
+INFO - 2025-07-25 13:46:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:46:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:46:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:32 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:50:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:56 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:51:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:58 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:51:59 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+INFO - 2025-07-25 13:54:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:54:28 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+INFO - 2025-07-25 13:54:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:54:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:55:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:55:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:55:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:55:36 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:55:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:55:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:55:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:55:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-07-25 13:55:53 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:53 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:53 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 208.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(208): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:54 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:54 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:54 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:54 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:54 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:54 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 210.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(210): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+WARNING - 2025-07-25 13:55:54 --> [DEPRECATED] htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH/Controllers/TikoERP/Cari.php on line 209.
+ 1 APPPATH/Controllers/TikoERP/Cari.php(209): htmlspecialchars(null)
+ 2 SYSTEMPATH/CodeIgniter.php(919): App\Controllers\TikoERP\Cari->tekrarEdenKayitlar()
+ 3 SYSTEMPATH/CodeIgniter.php(494): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TikoERP\Cari))
+ 4 SYSTEMPATH/CodeIgniter.php(353): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(79): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH/Commands/Server/rewrite.php(47): require_once('/Users/tikoapp/Documents/GitHub/tikoportal_v3/public_html/index.php')
+INFO - 2025-07-25 13:56:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:56:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:56:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:56:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:56:45 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:56:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:56:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:58:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 13:58:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 14:56:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 14:56:49 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 14:56:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-07-25 14:56:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

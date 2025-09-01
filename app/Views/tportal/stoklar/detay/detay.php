@@ -1,0 +1,54 @@
+
+<?= $this->extend('tportal/layout') ?>
+<?= $this->section('page_title') ?> Ürün Detay <?= $this->endSection() ?>
+<?= $this->section('title') ?> Ürün Detay | <?= $stock_item['stock_code']?> - <?= $stock_item['stock_title'] ?> <?= $this->endSection() ?>
+<?= $this->section('subtitle') ?> <?= $this->endSection() ?>
+
+
+
+
+<?= $this->section('main') ?>
+
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="nk-block">
+                <div class="card">
+                    <div class="card-aside-wrap">
+                        <div class="card-inner card-inner-lg">
+                            <div class="nk-block-head nk-block-head-lg">
+                                <div class="nk-block-between">
+                                    <div class="nk-block-head-content">
+                                        <h4 class="nk-block-title">Ürün Bilgileri</h4>
+                                      
+                                    </div>
+                                    <div class="nk-block-head-content align-self-start d-lg-none">
+                                        <a href="#" class="toggle btn btn-icon btn-trigger mt-n1" data-target="userAside"><em class="icon ni ni-menu-alt-r"></em></a>
+                                    </div>
+                                </div>
+                            </div><!-- .nk-block-head -->
+                            <div class="nk-block">
+
+                                <?= view_cell('App\Libraries\ViewComponents::getComponent', ['component_name' => 'stoklar.detay.detay']); ?>
+
+                            </div><!-- .nk-block -->
+                        </div>
+                        <?= $this->include('tportal/stoklar/detay/inc/sol_menu') ?>
+                        <!-- card-aside -->
+                    </div><!-- .card-aside-wrap -->
+                </div><!-- .card -->
+            </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+
+<script>
+
+</script>
+
+<?= $this->endSection() ?>

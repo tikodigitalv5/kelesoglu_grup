@@ -1,0 +1,38 @@
+
+
+
+.nav-link{
+    color:#5b6470 !important;
+}
+.nav-link:hover{
+
+    color: #024ad0 !important;
+}
+.bg_blue{
+    background-image: url(signup-backg.svg);
+    background-color: #024ad0!important;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top right;
+}
+.nk-block-between {
+    justify-content: space-around;
+}
+.logo-img:not(:first-child) {
+    position: inherit;
+}
+
+@media (max-width: 576px){
+    .logo-img {
+        max-height: 50px;
+    }
+    .nk-block-head {
+        position: relative;
+        padding-bottom: 0.25rem;
+    }
+}
+@media (min-width: 1200px){
+    .nk-content {
+        margin-top:0px!important;
+    }
+}
