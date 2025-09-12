@@ -82,10 +82,10 @@ class User extends BaseController
         
 
         $userDatabaseDetail = [
-            'hostname' => '78.135.66.90',
-            'username' => 'fams_us',
-            'password' => 'p15%5Io0z',
-            'database' => 'fams_db',
+            'hostname'     => '45.143.99.171',
+            'username'     => 'brkd_us',
+            'password'     => '2^bHSW9j?rMQ',
+            'database'     => 'brkd_db',
             'DBDriver' => 'MySQLi', // Veritabanı sürücüsünü belirtin (MySQLi, Postgre, vb.)
             'DBPrefix' => '',
             'pConnect' => false,

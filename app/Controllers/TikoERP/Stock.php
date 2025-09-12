@@ -2458,6 +2458,8 @@ $stock_barcode_id = $StoktanBul["stock_barcode_id"];
 
     public function create()
     {
+        $cariler = $this->modelCari->where('is_supplier', '1')->where('user_id', session()->get('user_id'))->findAll();
+
         $insert_data = [];
         if ($this->request->getMethod('true') == 'POST') {
             try {
@@ -2489,6 +2491,7 @@ $stock_barcode_id = $StoktanBul["stock_barcode_id"];
                 $sale_tax_rate = $this->request->getPost('sale_tax_rate');
                 $alt_category_id = $this->request->getPost('alt_category_id');
 
+                $cari_id = $this->request->getPost('cari_id');
                 $status = $this->request->getPost('status');
 
                 $stock_tracking = $this->request->getPost('stock_tracking');
@@ -2527,6 +2530,7 @@ $stock_barcode_id = $StoktanBul["stock_barcode_id"];
                 $insert_data = [
                     'parent_id' => 0,
                     'paket'    => $paketli_id,
+                    'cari_id' => $cari_id,
                     'user_id' => session()->get('user_id'),
                     'type_id' => $type_id,
                     'category_id' => $category_id,
@@ -2642,6 +2646,7 @@ $stock_barcode_id = $StoktanBul["stock_barcode_id"];
             $category_items = $this->modelCategory->where('user_id', session()->get('user_id'))->where('status', 'active')->orderBy('order', 'ASC')->findAll();
 
             $data = [
+                'cariler' => $cariler,
                 'type_items' => $type_items,
                 'unit_items' => $unit_items,
                 'category_items' => $category_items,
@@ -2761,7 +2766,9 @@ $stock_barcode_id = $StoktanBul["stock_barcode_id"];
     public function edit($stock_id = null)
     {
         $stock_item = $this->modelStock->where('stock.user_id', session()->get('user_id'))->where('stock_id', $stock_id)->join('unit as sale_unit', 'sale_unit.unit_id = stock.sale_unit_id')->first();
+        $cariler = $this->modelCari->where('is_supplier', '1')->where('user_id', session()->get('user_id'))->findAll();
 
+ 
         if (!$stock_item) {
             return view('not-found');
         }
@@ -2785,6 +2792,9 @@ $stock_barcode_id = $StoktanBul["stock_barcode_id"];
                 $paket_id = $this->request->getPost('paket');
                 $alt_category_id = $this->request->getPost('alt_category_id');
                 $stock_barcode = $this->request->getPost('stock_barcode');
+                $cari_id = $this->request->getPost('cari_id');
+
+             
 
                 
                     $barcode_number = generate_barcode_number($stock_barcode);
@@ -2823,6 +2833,7 @@ $stock_barcode_id = $StoktanBul["stock_barcode_id"];
                     'user_id' => session()->get('user_id'),
                     'type_id' => $type_id,
                     'paket'   => $paket_id,
+                    'cari_id' => $cari_id,
                     'category_id' => $category_id,
                     'altcategory_id' => $alt_category_id ?? 0,
                     'buy_unit_id' => $buy_unit_id,
@@ -2978,7 +2989,7 @@ $stock_barcode_id = $StoktanBul["stock_barcode_id"];
 
 
     $data = [
-
+            'cariler' => $cariler,
             'operation_amounts' => $operation_amounts,
             'stock_operation' => $stock_operation,
                 'stock_item' => $stock_item,

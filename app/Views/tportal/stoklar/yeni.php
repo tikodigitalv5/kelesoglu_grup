@@ -227,6 +227,30 @@
 
                                     <div class="card-inner position-relative card-tools-toggle">
                                         <div class="gy-3">
+                                        <div class="row g-3 align-center">
+                                                    <div class="col-lg-5 col-xxl-5 ">
+                                                        <div class="form-group"><label class="form-label"
+                                                                for="supplier_stock_code">Tedarikçi Seç</label><span
+                                                                class="form-note d-none d-md-block">Tedarikçi Carisi.</span></div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-xxl-7 mt-0 mt-md-2">
+                                                        <div class="form-group">
+                                                        <div class="form-control-select">
+                                                            <select required=""
+                                                                            class="form-control  select2 form-control-xl"
+                                                                            name="cari_id" id="cari_id">
+                                                                            <option value="" <?php if(empty($stock_item['cari_id'])){ echo 'selected'; } ?>>Seçilmedi</option>
+                                                                            <?php 
+                                                                            
+                                                                    foreach($cariler as $cari_item){ ?>
+                                                                            <option value="<?= $cari_item['cari_id'] ?>" >
+                                                                                <?= $cari_item['invoice_title'] ?></option>
+                                                                            <?php } ?>
+                                                                        </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             <div class="row g-3 align-center">
                                                 <div class="col-lg-5 col-xxl-5 ">
                                                     <div class="form-group"><label class="form-label"
@@ -236,7 +260,8 @@
                                                 </div>
                                                 <div class="col-lg-6 col-xxl-7 mt-0 mt-md-2">
                                                     <div class="form-group">
-                                                        <div class="form-control-wrap"><input type="text"
+                                                        <div class="form-control-wrap">
+                                                            <input type="text"
                                                                 class="form-control form-control-xl"
                                                                 id="supplier_stock_code" value=""
                                                                 placeholder="Ürünün varsa tedarikçi kodunu giriniz"
@@ -855,6 +880,11 @@ $('input[type=radio][name=stock_tracking]').change(function() {
     } else if (this.value == '0') {
         $('#stock_tracking').addClass('d-none');
     }
+});
+
+$('#cari_id').on('change', function() {
+    var selectedText = $(this).find(":selected").text();
+    $('#supplier_stock_code').val(selectedText.trim());
 });
 </script>
 

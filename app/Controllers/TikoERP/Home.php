@@ -28,6 +28,8 @@ class Home extends BaseController
     private $modelBox;
     private $modelBoxRow;
 
+    private $modelCategory;
+
     private $modelOrderRow;
     private $modelStockRecipe;
     private $modelRecipeItem;
@@ -64,6 +66,7 @@ class Home extends BaseController
         $this->modelStockRecipe = model($TikoERPModelPath . '\StockRecipeModel', true, $db_connection);
         $this->modelRecipeItem = model($TikoERPModelPath . '\RecipeItemModel', true, $db_connection);
         $this->modelOperationUser = model($TikoERPModelPath . '\OperationUser', true, $db_connection);
+        $this->modelCategory = model($TikoERPModelPath . '\CategoryModel', true, $db_connection);
         $this->InvoiceOutgoingStatusModel = model($TikoERPModelPath . '\InvoiceOutgoingStatusModel', true, $db_connection);
 
         $this->stok_sayim =  session()->get("user_item")["stock_user"] ?? 0;
@@ -134,150 +137,7 @@ class Home extends BaseController
         if (session("user_item")["operation"]) {
 
 
-            if (session()->get('user_item')['user_id'] == 4) {
-
-                $AtananLar = $this->modelOperationUser->where("client_id", session()->get('user_item')['client_id'])->where("status", "active")->first();
-               
-                if (empty($AtananLar)) {
-                    // Eğer $AtananLar boş ise mevcut session'a operation_id'yi set et
-                    $AtananLar["operation_id"] = session("user_item")["operation"];
-                } else {
-                    // Eğer $AtananLar mevcut ise, session'daki operation değerini güncelle
-                    $userItem = session()->get('user_item');
-                    $userItem['operation'] = $AtananLar["operation_id"];
-                    session()->set('user_item', $userItem);
-                }
-
-
-                $modalStock = $this->modelStock->where("category_id", 10)->findAll();
-               
-
-                $operasyonlar = $this->modelOperation->where("operation_id", $AtananLar["operation_id"])->first();
-
-
-                $beklemede_operasyonlar = $this->modelProductionOperation
-                ->select('production_row_operation.*, stock.default_image, stock.parent_id, production.order, order.cari_invoice_title')
-                ->join("stock", "stock.stock_id = production_row_operation.stock_id") // stock tablosuna bağlan
-                ->join("production", "production.production_id = production_row_operation.production_id") // production tablosuna bağlan
-                ->join("order", "order.order_id = production.order") // orders tablosuna bağlan
-                ->where("production_row_operation.status", "Beklemede") // Beklemede olan işlemleri al
-                ->where("production_row_operation.operation_id", $AtananLar["operation_id"]) // İlgili operasyon ID'sine göre filtrele
-                ->findAll();
-            
-            // Görüntü yolu kontrolü ve parent_id üzerinden resim güncelleme
-            foreach ($beklemede_operasyonlar as &$beklemede) {
-                if ($beklemede["default_image"] == "uploads/default.png") {
-                    $stoklar = $this->modelStock->where("stock_id", $beklemede["parent_id"])->first();
-                    if ($stoklar && $stoklar["default_image"] != "uploads/default.png") {
-                        $beklemede["default_image"] = $stoklar["default_image"];
-                    }
-                }
-            }
-
-           
-    
-                  $islemde_operasyonlar = $this->modelProductionOperation
-                                               ->select('production_row_operation.*, stock.default_image, stock.parent_id , production.order, order.cari_invoice_title')
-                                               ->join("stock", "stock.stock_id = production_row_operation.stock_id")
-                                               ->join("production", "production.production_id = production_row_operation.production_id") // production tablosuna bağlan
-                                               ->join("order", "order.order_id = production.order") // orders tablosuna bağlan
-                                               ->where("production_row_operation.status", "İşlemde")
-                                               ->orWhere("production_row_operation.status", "Durdu")
-                                               ->orWhere("production_row_operation.status", "Devam")
-                                               ->where("production_row_operation.operation_id", $AtananLar["operation_id"])
-                                               ->findAll();
-                                           
-                                             
-                      
-                                           foreach($islemde_operasyonlar as &$islemde) {
-                                            
-                                               if($islemde["default_image"] == "uploads/default.png") {
-                                                   $stoklar = $this->modelStock->where("stock_id", $islemde["parent_id"])->first();
-                                                   if($islemde["default_image"] != "uploads/default.png"){
-                                                    $islemde["default_image"] = $stoklar["default_image"];
-                                                   }
-                                                       
-                                                }
-                                                    $satirlar = $this->modelProductionOperationRow
-                                                                     ->where("operation_id", $AtananLar["operation_id"])
-                                                                     ->where("stock_id", $islemde["stock_id"])
-                                                                     ->where("production_number", $islemde["production_number"])
-                                                                     ->where("status", "Durdu")
-                                                                     ->first();
-                                                        if($satirlar){
-                                                            $islemde["islemler"] = $satirlar["islem"];
-                                                        }else{
-                                                            $islemde["islemler"] = '';
-                                                        }
-                                                           
-    
-    
-                                                        
-                                               
-                                           }
-                               
-                                      
-                                     
-                                           
-           
-                $bitti_operasyonlar = $this->modelProductionOperation
-                                                ->select('production_row_operation.*, stock.default_image, stock.parent_id, production.order, order.cari_invoice_title')
-                                                ->join("stock", "stock.stock_id = production_row_operation.stock_id")
-                                                ->join("production", "production.production_id = production_row_operation.production_id") // production tablosuna bağlan
-                                                ->join("order", "order.order_id = production.order") // orders tablosuna bağlan
-                                                ->where("production_row_operation.status", "Bitti")
-                                                ->where("production_row_operation.operation_id", $AtananLar["operation_id"])
-                                                ->findAll();
-    
-                                                foreach($bitti_operasyonlar as &$bitti) {
-                                                    if($bitti["default_image"] == "uploads/default.png") {
-                                                        $stoklar = $this->modelStock->where("stock_id", $bitti["parent_id"])->first();
-                                                        if($bitti["default_image"] != "uploads/default.png")
-                                                        $bitti["default_image"] = $stoklar["default_image"];
-                                                    }
-                                                }
-    
-    
-    
-    
-                $beklemede_count = $this->modelProductionOperation->where("status", "Beklemede")->where("operation_id", $AtananLar["operation_id"])->countAllResults();
-                $islemde_count = $this->modelProductionOperation->where("status", "İşlemde")->where("operation_id", $AtananLar["operation_id"])->orWhere("status", "Durdu")->orWhere("status", "Devam")->countAllResults();
-    
-                $bitti_count = $this->modelProductionOperation->where("status", "Bitti")->where("operation_id", $AtananLar["operation_id"])->countAllResults();
-                
-                $sevkler = $this->modelEmirler->orderBy("sevk_id", "DESC")->findAll();
-                $kutular = $this->modelBox->findAll();
-                foreach($kutular as $index => $satirlar){
-                    $kutular[$index]["satirlar"] = $this->modelBoxRow->where("kutu_id", $satirlar["id"])->findAll();
-                }
-                $order_satirlar = $this->modelOrderRow->where("kutu_id !=", NULL)->findAll();
-    
-                $data = [
-                    'beklemede_operasyonlar' => $beklemede_operasyonlar,
-                    'beklemede_count' => $beklemede_count,
-                    'islemde_operasyonlar' => $islemde_operasyonlar,
-                    'islemde_count' => $islemde_count,
-                    'bitti_operasyonlar' => $bitti_operasyonlar,
-                    'bitti_count' => $bitti_count,
-                    'sevkler' => $sevkler,
-                    'kutular' => $kutular,
-                    'modalStock' => $modalStock,
-                    'order_satirlar' => $order_satirlar,
-                    'outgoing_invoices' => $outgoing_items,
-                    'incoming_invoices' => $incoming_items,
-                    'operation' => $AtananLar["operation_id"],
-                    'operation_title' => $operasyonlar["operation_title"]
-    
-                ];
-    
-                return view('tportal/operations', $data);
-
-
-
-
-
-                
-            }else{
+      
                 $operasyonlar = $this->modelOperation->where("operation_id", session("user_item")["operation"])->first();
 
                 $beklemede_operasyonlar = $this->modelProductionOperation
@@ -366,8 +226,44 @@ class Home extends BaseController
                     $kutular[$index]["satirlar"] = $this->modelBoxRow->where("kutu_id", $satirlar["id"])->findAll();
                 }
                 $order_satirlar = $this->modelOrderRow->where("kutu_id !=", NULL)->findAll();
+
+
+                $Kategoriler = $this->modelCategory->where("category_id", 115)->first();
+                $kategori_urunleri = $this->modelStock->where("category_id", 115)->findAll();
+
+                foreach($kategori_urunleri as &$urun){
+                    $urun["stok_koli"] =  $this->modelRecipeItem->join('stock_recipe', 'stock_recipe.recipe_id = recipe_item.recipe_id')
+                    ->join('stock', 'recipe_item.stock_id = stock.stock_id')
+                    ->join('type', 'stock.type_id = type.type_id','left')
+                    ->join('unit as buy_unit', 'buy_unit.unit_id = stock.buy_unit_id')
+                    ->join('unit as sale_unit', 'sale_unit.unit_id = stock.sale_unit_id')
+                    ->join('money_unit as buy_money_unit', 'buy_money_unit.money_unit_id = stock.buy_money_unit_id')
+                    ->join('money_unit as sale_money_unit', 'sale_money_unit.money_unit_id = stock.sale_money_unit_id')
+                    ->select('stock.*, type.type_title, stock_recipe.*, buy_unit.unit_value as buy_unit_value, sale_unit.unit_id as sale_unit_id, buy_money_unit.money_icon as buy_money_icon, sale_money_unit.money_icon as sale_money_icon, buy_money_unit.money_title as buy_money_title, sale_money_unit.money_title as sale_money_title, recipe_item.*')
+                    ->where('stock_recipe.stock_id', $urun["stock_id"])
+                    ->findAll();
+                    foreach($urun["stok_koli"] as &$recete){
+                        $recete["koli_recete"] = $this->modelRecipeItem->join('stock_recipe', 'stock_recipe.recipe_id = recipe_item.recipe_id')
+                        ->join('stock', 'recipe_item.stock_id = stock.stock_id')
+                        ->join('type', 'stock.type_id = type.type_id','left')
+                        ->join('unit as buy_unit', 'buy_unit.unit_id = stock.buy_unit_id')
+                        ->join('unit as sale_unit', 'sale_unit.unit_id = stock.sale_unit_id')
+                        ->join('money_unit as buy_money_unit', 'buy_money_unit.money_unit_id = stock.buy_money_unit_id')
+                        ->join('money_unit as sale_money_unit', 'sale_money_unit.money_unit_id = stock.sale_money_unit_id')
+                        ->select('stock.*, type.type_title, stock_recipe.*, buy_unit.unit_value as buy_unit_value, sale_unit.unit_id as sale_unit_id, buy_money_unit.money_icon as buy_money_icon, sale_money_unit.money_icon as sale_money_icon, buy_money_unit.money_title as buy_money_title, sale_money_unit.money_title as sale_money_title, recipe_item.*')
+                        ->where('stock_recipe.stock_id', $recete["stock_id"])
+                        ->findAll();
+                    }
+                }
+
+              
+              
+
+
     
                 $data = [
+                    'kategori_urunleri' => $kategori_urunleri,
+                    'kategoriler' => $Kategoriler,
                     'beklemede_operasyonlar' => $beklemede_operasyonlar,
                     'beklemede_count' => $beklemede_count,
                     'islemde_operasyonlar' => $islemde_operasyonlar,
@@ -385,7 +281,7 @@ class Home extends BaseController
                 ];
     
                 return view('tportal/operation', $data);
-            }
+            
 
 
 

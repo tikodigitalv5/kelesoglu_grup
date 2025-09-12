@@ -4691,7 +4691,7 @@ class Invoice extends BaseController
                 $debugDetails = json_encode($errorDetails, JSON_PRETTY_PRINT); // Geliştirici için anlaşılır detaylar
 
                 // Basit hata mesajını JSON formatında döndür
-                echo json_encode(['icon' => 'error', 'message' => $userFriendlyMessage]);
+                echo json_encode(['icon' => 'error', 'message' => $debugDetails]);
                 return;
             }
         } else {

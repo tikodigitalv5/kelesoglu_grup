@@ -20,6 +20,7 @@ class StockModel extends Model {
         'altcategory_id',
         'artliving',
         'user_id',
+        'cari_id',
         'type_id',
         'category_id',
         'buy_unit_id',
