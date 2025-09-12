@@ -328,7 +328,7 @@ function previewEtiket(paletId) {
                 </div>
                 <div class="etiket-body">
                     <div class="palet-kodu">${paletId}</div>
-                    <div class="palet-adi">${paletBilgi.koli_adi} (${paletBilgi.koli_total_amount} Adet)</div>
+                    <div class="palet-adi">${paletBilgi.koli_adi} <br> ${paletBilgi.koli_total_amount} Koli</div>
                 </div>
 
               
@@ -342,9 +342,7 @@ function previewEtiket(paletId) {
                     <div style="font-weight: bold;">KELEŞOĞLU GRUP</div>
                 </div>
             </div>
-            <div class="print-button-container">
-                <button onclick="window.print()" class="print-button">🖨️ Yazdır</button>
-            </div>
+            
         </body>
         </html>
     `;
