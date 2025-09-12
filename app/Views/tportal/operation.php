@@ -328,14 +328,10 @@ function previewEtiket(paletId) {
                 </div>
                 <div class="etiket-body">
                     <div class="palet-kodu">${paletId}</div>
-                    <div class="palet-adi">${paletBilgi.koli_adi} (${paletBilgi.koli_total_amount} Adet)</div>
+                    <div class="palet-adi">${paletBilgi.koli_adi} <br> ${paletBilgi.koli_total_amount} Koli</div>
                 </div>
 
-                <div class="barcode-container">
-                    <div class="barcode-label">Palet Barkodu</div>
-                    <svg id="pallet-barcode"></svg>
-                </div>
-
+              
                 <div class="barcode-container" style="border-top: 1px solid #ccc;">
                     <div class="barcode-label">PALET BARKODU</div>
                     <svg id="koli-barcode"></svg>
