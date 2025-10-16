@@ -1002,7 +1002,7 @@ class Home extends BaseController
             $insert_invoice_data = [
                 'user_id' => session()->get('user_id'),
                 'money_unit_id' => $buy_money_unit_id,
-                'sale_type' => "detailed",
+                'sale_type' => "quick",
                 'invoice_no' => $invoice_no,
                 'invoice_direction' => 'outgoing_invoice',
                 'invoice_date' => date('Y-m-d H:i:s'),
