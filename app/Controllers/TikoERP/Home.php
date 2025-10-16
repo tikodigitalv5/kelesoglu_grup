@@ -1002,7 +1002,7 @@ class Home extends BaseController
             $insert_invoice_data = [
                 'user_id' => session()->get('user_id'),
                 'money_unit_id' => $buy_money_unit_id,
-                'sale_type' => "quick",
+                'sale_type' => "detailed",
                 'invoice_no' => $invoice_no,
                 'invoice_direction' => 'outgoing_invoice',
                 'invoice_date' => date('Y-m-d H:i:s'),
@@ -1198,11 +1198,37 @@ class Home extends BaseController
 
         ///     FATURA KESME İŞLEMİ BİTİŞ VE STOK DÜŞÜMÜ BİTİŞ
 
+        // Etiket yazdırma sonrası stok tutarlılık kontrolü
+        $stok_duzeltmeleri = [];
+        foreach ($cikarilacak_stok as $urun) {
+            $stock_id = $urun['urun_id'];
+            $mevcut_stok = $this->modelStock->select('stock_total_quantity')->find($stock_id);
+            $mevcut_miktar = $mevcut_stok ? floatval($mevcut_stok['stock_total_quantity']) : 0;
+            
+            // Fatura verilerine göre doğru stok miktarını hesapla
+            $dogru_miktar = $this->stokHesaplaFaturalardan($stock_id, session()->get('user_id'));
+            
+            if ($mevcut_miktar != $dogru_miktar) {
+                // Stok tutarsızlığı var, düzelt
+                $this->modelStock->update($stock_id, [
+                    'stock_total_quantity' => $dogru_miktar
+                ]);
+                
+                $stok_duzeltmeleri[] = [
+                    'stock_id' => $stock_id,
+                    'stock_title' => $urun['urun_adi'],
+                    'eski_miktar' => $mevcut_miktar,
+                    'yeni_miktar' => $dogru_miktar,
+                    'fark' => $dogru_miktar - $mevcut_miktar
+                ];
+            }
+        }
+
         // Başarılı response döndür
         return $this->response->setJSON([
             'icon' => 'success',
             'title' => 'Başarılı',
-            'text' => 'Etiket başarıyla hazırlandı',
+            'text' => 'Etiket başarıyla hazırlandı ve stok tutarlılığı kontrol edildi',
             'data' => [
                 'etiket_data' => $etiket_data,
                 'yazdirma_bilgisi' => [
@@ -1210,6 +1236,10 @@ class Home extends BaseController
                     'koli_sayisi' => $koli_sayisi,
                     'toplam_urun_cesidi' => count($cikarilacak_stok),
                     'yazdirma_tarihi' => date('Y-m-d H:i:s')
+                ],
+                'stok_duzeltmeleri' => [
+                    'duzeltilen_stok_sayisi' => count($stok_duzeltmeleri),
+                    'duzeltilen_stoklar' => $stok_duzeltmeleri
                 ]
             ]
         ]);
@@ -1227,5 +1257,88 @@ class Home extends BaseController
         $barcode_with_text .= '</div>';
         
         return $barcode_with_text;
+    }
+
+    /**
+     * Stok tutarlılığını kontrol et ve düzelt
+     * Fatura verilerine göre stok miktarını yeniden hesapla
+     */
+    public function stokTutarlilikKontrol()
+    {
+        $user_id = session()->get('user_id');
+        
+        // Tüm stokları al
+        $stoklar = $this->modelStock->where('user_id', $user_id)->findAll();
+        
+        $duzeltilen_stoklar = [];
+        $hata_olan_stoklar = [];
+        
+        foreach ($stoklar as $stok) {
+            $stock_id = $stok['stock_id'];
+            $mevcut_stok = floatval($stok['stock_total_quantity']);
+            
+            // Bu stok için tüm fatura satırlarını hesapla
+            $hesaplanan_stok = $this->stokHesaplaFaturalardan($stock_id, $user_id);
+            
+            if ($mevcut_stok != $hesaplanan_stok) {
+                // Stok tutarsızlığı var, düzelt
+                $this->modelStock->update($stock_id, [
+                    'stock_total_quantity' => $hesaplanan_stok
+                ]);
+                
+                $duzeltilen_stoklar[] = [
+                    'stock_id' => $stock_id,
+                    'stock_title' => $stok['stock_title'],
+                    'eski_miktar' => $mevcut_stok,
+                    'yeni_miktar' => $hesaplanan_stok,
+                    'fark' => $hesaplanan_stok - $mevcut_stok
+                ];
+            }
+        }
+        
+        return $this->response->setJSON([
+            'icon' => 'success',
+            'title' => 'Stok Tutarlılık Kontrolü',
+            'text' => 'Stok tutarlılık kontrolü tamamlandı',
+            'data' => [
+                'duzeltilen_stok_sayisi' => count($duzeltilen_stoklar),
+                'duzeltilen_stoklar' => $duzeltilen_stoklar
+            ]
+        ]);
+    }
+    
+    /**
+     * Belirli bir stok için fatura verilerine göre stok miktarını hesapla
+     */
+    private function stokHesaplaFaturalardan($stock_id, $user_id)
+    {
+        // Alış faturalarından eklenen miktarları hesapla
+        $alis_miktari = $this->modelInvoiceRow
+            ->join('invoice', 'invoice.invoice_id = invoice_row.invoice_id')
+            ->where('invoice_row.stock_id', $stock_id)
+            ->where('invoice_row.user_id', $user_id)
+            ->where('invoice.invoice_direction', 'incoming_invoice')
+            ->where('invoice.deleted_at IS NULL')
+            ->selectSum('invoice_row.stock_amount')
+            ->first();
+        
+        $eklenen_miktar = $alis_miktari ? floatval($alis_miktari['stock_amount']) : 0;
+        
+        // Satış faturalarından çıkarılan miktarları hesapla
+        $satis_miktari = $this->modelInvoiceRow
+            ->join('invoice', 'invoice.invoice_id = invoice_row.invoice_id')
+            ->where('invoice_row.stock_id', $stock_id)
+            ->where('invoice_row.user_id', $user_id)
+            ->where('invoice.invoice_direction', 'outgoing_invoice')
+            ->where('invoice.deleted_at IS NULL')
+            ->selectSum('invoice_row.stock_amount')
+            ->first();
+        
+        $cikarilan_miktar = $satis_miktari ? floatval($satis_miktari['stock_amount']) : 0;
+        
+        // Net stok hesapla: Sadece alış - satış
+        $net_stok = $eklenen_miktar - $cikarilan_miktar;
+        
+        return max(0, $net_stok); // Negatif stok olamaz
     }
 }

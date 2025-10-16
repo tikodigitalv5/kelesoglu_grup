@@ -955,6 +955,9 @@ $routes->post('api/tikoportal/fatura/alis/cari/guncelle', 'Api\TikoPortal::alis_
 // Palet Etiket Yazdırma
 $routes->post('api/tikoportal/palet/etiket/yazdir', 'TikoERP\Home::printEtiket', ['as' => 'tportal.printEtiket']);
 
+// Stok Tutarlılık Kontrolü
+$routes->get('api/tikoportal/stok/tutarlilik/kontrol', 'TikoERP\Home::stokTutarlilikKontrol', ['as' => 'tportal.stokTutarlilikKontrol']);
+
 $routes->get('sysmond/index', 'Api\Sysmond::index');
 $routes->get('sysmond/check', 'Api\Sysmond::stock_and_sysmond');
 $routes->get('sysmond/check_raf', 'Api\Sysmond::stock_sysmond_raf');
