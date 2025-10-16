@@ -188,7 +188,7 @@
                                                                     if ($quick_sale_item['invoice_direction'] == 'outgoing_invoice' && $quick_sale_item1['birim_adet'] > 0 && ($quick_sale_item1['is_return_amount'] < $quick_sale_item1['birim_adet'])) { ?>
                                                                        <?php if($quick_sale_item["invoice_type"] != "IADE"): ?>
                                                                        <button
-                                                                            class="btn btn-outline-warning btn-xs btn_return"
+                                                                            class="btn btn-outline-warning btn-xs btn_return d-none"
                                                                             data-return-stock-barcode-id="<?= $quick_sale_item1['stock_barcode_id'] ?>"
                                                                             data-stock-barcode="<?= $quick_sale_item1['stock_barcode'] ?>"
                                                                             data-stock-id="<?= $quick_sale_item1['stock_id'] ?>"
@@ -203,7 +203,7 @@
                                                                     ?>
 
 <button
-                                                                            class="btn btn-outline-primary btn-xs btn_fiyat mt-1 "
+                                                                            class="btn btn-outline-primary btn-xs btn_fiyat mt-1 d-none "
                                                                             data-return-stock-barcode-id="<?= $quick_sale_item1['stock_barcode_id'] ?>"
                                                                             data-stock-rowid="<?= $quick_sale_item1['fatura_satiri']; ?>"
                                                                             data-stock-unit="<?= $quick_sale_item1['birim_fiyat'] ?>"
