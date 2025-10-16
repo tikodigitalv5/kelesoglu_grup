@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Controllers\TikoPortal\GeneralConfig;
 use App\Models\TikoERP\StockRecipeModel;
 use App\Models\TikoERP\RecipeItemModel;
-
+use CodeIgniter\I18n\Time;
 class Home extends BaseController
 {
     private $TikoERPModelPath = 'App\Models\TikoERP';
@@ -957,8 +957,246 @@ class Home extends BaseController
             'kullanici_id' => session()->get('user_id')
         ];
 
-        // TODO: Burada etiket yazdırma işlemini yapabilirsiniz
-        // Örnek: PDF oluşturma, yazıcıya gönderme, vs.
+        // FATURA KESME İŞLEMİ BAŞLANGIÇ VE STOK DÜŞÜMÜ
+        
+        // Palet için satış faturası oluştur
+        $user_item_tedarik = $palet_bilgisi['cari_id'] ?? 0; // Add null check
+        $user_item_depo = 1;
+        $warehouse_id = $user_item_depo;
+        $supplier_id = $user_item_tedarik;
+        $buy_money_unit_id = 1;
+        $currency_amount = 1;
+        
+        // Palet numarası için transaction note
+        $transaction_note = "P" . $palet_id . " - Palet Etiket Yazdırma Sonrası Otomatik Stoktan Çıkış";
+        
+        // Cari bilgilerini al
+        $supplier = $this->modelCari->join('address', 'cari.cari_id = address.cari_id', 'left')
+            ->where('cari.cari_id', $supplier_id)
+            ->where('cari.user_id', session()->get('user_id'))
+            ->first();
+
+
+        // Cari varsa satış faturası oluştur
+        $financialMovement_id = 0;
+        $invoice_id = 0;
+        
+        if ($supplier_id != 0 && $supplier) {
+            $stock_entry_prefix = "PALET";
+            
+            // Toplam tutarı hesapla (tüm ürünler için)
+            $toplam_tutar = 0;
+            foreach ($cikarilacak_stok as $urun) {
+                $urun_bilgisi = $this->modelStock->find($urun['urun_id']);
+                if ($urun_bilgisi) {
+                    $toplam_tutar += $urun['cikarilacak_miktar'] * floatval($urun_bilgisi['sale_unit_price']);
+                }
+            }
+
+            [$transaction_direction, $amount_to_be_processed] = ['entry', $toplam_tutar * -1];
+
+            $create_sale_order_code = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+            $invoice_no = 'PALET-'.$create_sale_order_code;
+
+            // Fatura kayıt oluştur
+            $insert_invoice_data = [
+                'user_id' => session()->get('user_id'),
+                'money_unit_id' => $buy_money_unit_id,
+                'sale_type' => "quick",
+                'invoice_no' => $invoice_no,
+                'invoice_direction' => 'outgoing_invoice',
+                'invoice_date' => date('Y-m-d H:i:s'),
+                'expiry_date' => date('Y-m-d H:i:s'),
+                'currency_amount' => 1,
+                'invoice_note' => $transaction_note,    
+                'stock_total' => $toplam_tutar,
+                'stock_total_try' => $toplam_tutar * floatval(str_replace(',', '.', $currency_amount)),
+                'sub_total' => $toplam_tutar,
+                'sub_total_try' => $toplam_tutar * floatval(str_replace(',', '.', $currency_amount)),
+                'grand_total' => $toplam_tutar,
+                'grand_total_try' => $toplam_tutar * floatval(str_replace(',', '.', $currency_amount)),
+                'amount_to_be_paid' => $toplam_tutar,
+                'amount_to_be_paid_try' => $toplam_tutar * floatval(str_replace(',', '.', $currency_amount)),
+                'cari_identification_number' => $supplier['identification_number'],
+                'cari_tax_administration' => $supplier['tax_administration'],
+                'cari_id' => $user_item_tedarik,
+                'cari_invoice_title' => $supplier['invoice_title'] == '' ? $supplier['name'] . " " . $supplier['surname'] : $supplier['invoice_title'],
+                'cari_name' => $supplier['name'],
+                'cari_surname' => $supplier['surname'],
+                'cari_obligation' => $supplier['obligation'],
+                'cari_company_type' => $supplier['company_type'],
+                'cari_phone' => $supplier['cari_phone'],
+                'cari_email' => $supplier['cari_email'],
+
+                'address_country' => $supplier['address_country'],
+                'address_city' => isset($supplier['address_city_name']) ? $supplier['address_city_name'] : "",
+                'address_city_plate' => isset($supplier['address_city']) ? $supplier['address_city'] : "",
+                'address_district' => isset($supplier['address_district']) ? $supplier['address_district'] : "",
+                'address_zip_code' => $supplier['zip_code'],
+                'address' => $supplier['address'],
+
+                'invoice_status_id' => "1",
+            ];
+
+            // print_r(str_replace(',', '.', $stock_quantity) * str_replace(',', '.', $buy_unit_price));
+            // print_r((str_replace(',', '.', $stock_quantity) * str_replace(',', '.', $buy_unit_price)) * str_replace(',', '.', $currency_amount));
+
+            $this->modelInvoice->insert($insert_invoice_data);
+            $invoice_id = $this->modelInvoice->getInsertID();
+
+            // Finansal hareket oluştur
+            $currentDateTime = new Time('now', 'Turkey', 'en_US');
+            $last_transaction = $this->modelFinancialMovement->where('user_id', session()->get('user_id'))->orderBy('transaction_counter', 'DESC')->first();
+            if ($last_transaction) {
+                $transaction_counter = $last_transaction['transaction_counter'] + 1;
+            } else {
+                $transaction_counter = 1;
+            }
+            $transaction_number = $stock_entry_prefix . str_pad($transaction_counter, 6, '0', STR_PAD_LEFT);
+            $insert_financial_movement_data = [
+                'user_id' => session()->get('user_id'),
+                'cari_id' => $supplier_id,
+                'money_unit_id' => $buy_money_unit_id,
+                'transaction_number' => $transaction_number,
+                'transaction_direction' => $transaction_direction,
+                'transaction_type' => 'outgoing_invoice',
+                'invoice_id' => $invoice_id,
+                'transaction_tool' => 'not_payroll',
+                'transaction_title' => "Palet Etiket Yazdırma - Stoktan Çıkış",
+                'transaction_description' => "Palet Etiket Yazdırma - Stoktan Çıkış",
+                'transaction_amount' => $toplam_tutar,
+                'transaction_real_amount' => $toplam_tutar,
+                'transaction_date' => $currentDateTime,
+                'transaction_prefix' => $stock_entry_prefix,
+                'transaction_counter' => $transaction_counter
+            ];
+            $this->modelFinancialMovement->insert($insert_financial_movement_data);
+            $financialMovement_id = $this->modelFinancialMovement->getInsertID();
+
+            $update_cari_data = [
+                'cari_balance' => $supplier['cari_balance'] + $amount_to_be_processed
+            ];
+            $this->modelCari->update($supplier['cari_id'], $update_cari_data);
+
+
+
+          
+
+            //cari harektlerinden ilgili hareket detayına gitmek için
+            $update_modelFinancialMovement_data = [
+                'invoice_id' => $invoice_id,
+            ];
+            $this->modelFinancialMovement->update($financialMovement_id, $update_modelFinancialMovement_data);
+
+
+          
+        } else {
+            $supplier = 0;
+        }
+        
+        // Her ürün için stok çıkış işlemi yap
+        if ($invoice_id > 0) {
+            foreach ($cikarilacak_stok as $urun) {
+                $urun_bilgisi = $this->modelStock->find($urun['urun_id']);
+                if (!$urun_bilgisi) continue;
+                
+                $kullanilacak_miktar = $urun['cikarilacak_miktar'];
+                $buy_unit_price = convert_number_for_sql($urun_bilgisi["sale_unit_price"]);
+                $stock_total = $kullanilacak_miktar * $buy_unit_price;
+                
+                // Stok miktarını güncelle
+                $yeni_stok_miktari = $urun_bilgisi['stock_total_quantity'] - $kullanilacak_miktar;
+                
+                $insert_StockWarehouseQuantity = [
+                    'user_id' => session()->get('user_id'),
+                    'warehouse_id' => $warehouse_id,
+                    'stock_id' => $urun_bilgisi['stock_id'],
+                    'parent_id' => $urun_bilgisi['parent_id'],
+                    'stock_quantity' => $yeni_stok_miktari,
+                ];
+
+                $parentStok = $urun_bilgisi['parent_id'] == 0 ? $urun['urun_id'] : $urun_bilgisi['parent_id'];
+                $addStock = updateStockWarehouseParentQuantity($insert_StockWarehouseQuantity, $warehouse_id, $urun['urun_id'], $parentStok, floatval($kullanilacak_miktar), 'remove', $this->modelStockWarehouseQuantity, $this->modelStock);
+
+                // Fatura satırı oluştur
+                $insert_invoice_row_data = [
+                    'user_id' => session()->get('user_id'),
+                    'invoice_id' => $invoice_id,
+                    'stock_id' => $urun['urun_id'],
+                    'stock_title' => $urun['urun_adi'],
+                    'stock_amount' => $kullanilacak_miktar,
+                    'unit_id' => $urun_bilgisi['buy_unit_id'],
+                    'unit_price' => $buy_unit_price,
+                    'subtotal_price' => $stock_total,
+                    'total_price' => $stock_total,
+                ];
+                $this->modelInvoiceRow->insert($insert_invoice_row_data);
+                $invoice_row_id = $this->modelInvoiceRow->getInsertID();
+
+                // Stok hareketi oluştur
+                $stock_barcode_all = $this->modelStockBarcode->join('stock', 'stock.stock_id = stock_barcode.stock_id')
+                    ->where('stock_barcode.stock_id', $urun['urun_id'])
+                    ->where('stock_barcode.warehouse_id', $warehouse_id)
+                    ->findAll();
+
+                foreach ($stock_barcode_all as $stock_barcode_item) {
+                    $varMi = $stock_barcode_item['total_amount'] - $stock_barcode_item['used_amount'];
+
+                    if ($varMi >= $kullanilacak_miktar) {
+                        $last_transaction = $this->modelStockMovement->where('user_id', session()->get('user_id'))->orderBy('transaction_counter', 'DESC')->first();
+                        if ($last_transaction) {
+                            $transaction_counter = $last_transaction['transaction_counter'] + 1;
+                        } else {
+                            $transaction_counter = 1;
+                        }
+                        $transaction_prefix = "PALET";
+                        $transaction_number = $transaction_prefix . str_pad($transaction_counter, 6, '0', STR_PAD_LEFT);
+                        
+                        $insert_stock_movement_data = [
+                            'user_id' => session()->get('user_id'),
+                            'stock_barcode_id' => $stock_barcode_item['stock_barcode_id'],
+                            'invoice_id' => $invoice_id,
+                            'movement_type' => 'outgoing',
+                            'transaction_number' => $transaction_number,
+                            'transaction_note' => null,
+                            'from_warehouse' => $warehouse_id,
+                            'transaction_info' => $transaction_note,
+                            'sale_unit_price' => $urun_bilgisi['sale_unit_price'],
+                            'sale_money_unit_id' => $urun_bilgisi['sale_money_unit_id'],
+                            'transaction_quantity' => $kullanilacak_miktar,
+                            'transaction_date' => date('Y-m-d H:i:s'),
+                            'transaction_prefix' => $transaction_prefix,
+                            'transaction_counter' => $transaction_counter,
+                        ];
+                        $this->modelStockMovement->insert($insert_stock_movement_data);
+
+                        $used_amount = $stock_barcode_item['used_amount'] + $kullanilacak_miktar;
+                        $stock_barcode_status = $used_amount == $stock_barcode_item['total_amount'] ? 'out_of_stock' : 'available';
+                        $update_stock_barcode_data = [
+                            'used_amount' => $used_amount,
+                            'stock_barcode_status' => $stock_barcode_status
+                        ];
+                        $this->modelStockBarcode->update($stock_barcode_item['stock_barcode_id'], $update_stock_barcode_data);
+
+                        $update_invoice_row_data = [
+                            'stock_barcode_id' => $stock_barcode_item['stock_barcode_id'],
+                        ];
+                        $this->modelInvoiceRow->update($invoice_row_id, $update_invoice_row_data);
+                        break 1;
+                    }
+                }
+            }
+        }
+       
+
+
+
+
+
+
+
+
+        ///     FATURA KESME İŞLEMİ BİTİŞ VE STOK DÜŞÜMÜ BİTİŞ
 
         // Başarılı response döndür
         return $this->response->setJSON([
@@ -976,6 +1214,7 @@ class Home extends BaseController
             ]
         ]);
     }
+    
 
     public function generate_barcode($code) {
         $generator = new \Picqer\Barcode\BarcodeGeneratorSVG();

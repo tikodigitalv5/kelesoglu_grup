@@ -744,131 +744,511 @@ class Home extends BaseController
             return view('not-found');
         }
 
-        if ($stock_item['parent_id'] != 0)
-            $parentStockId = $stock_item['parent_id'];
-        else
-            $parentStockId = 0;
+        // Gereksiz değişkenler kaldırıldı
 
-        $all_stock_items = $this->modelStock->join('category', 'category.category_id = stock.category_id')
-            ->join('unit as buy_unit', 'buy_unit.unit_id = stock.buy_unit_id')
-            ->join('unit as sale_unit', 'sale_unit.unit_id = stock.sale_unit_id')
-            ->join('type', 'type.type_id = stock.type_id','left')
-            ->join('money_unit as buy_money_unit', 'buy_money_unit.money_unit_id = stock.buy_money_unit_id')
-            ->join('money_unit as sale_money_unit', 'sale_money_unit.money_unit_id = stock.sale_money_unit_id')
-            ->select('sale_unit.unit_title as sale_unit_title, sale_unit.unit_value as sale_unit_value, type.type_title, category.category_title')
-            ->select('buy_unit.unit_title as buy_unit_title, buy_unit.unit_value as buy_unit_value')
-            ->select('buy_money_unit.money_icon as buy_money_icon, buy_money_unit.money_code as buy_money_code, stock.*')
-            ->select('sale_money_unit.money_icon as sale_money_icon, sale_money_unit.money_code as sale_money_icon')
-            ->where('stock.user_id', session()->get('user_id'))
-            ->where('stock.stock_id !=', $palet_id)
-            ->where('parent_id', 0)
-            ->orderBy('category.category_title', 'ASC')
-            ->orderBy('stock.stock_code', 'ASC')
-            ->findAll();
-
-        $stock_recipe_items = $this->modelRecipeItem->join('stock_recipe', 'stock_recipe.recipe_id = recipe_item.recipe_id')
-            ->join('stock', 'recipe_item.stock_id = stock.stock_id')
-            ->join('type', 'stock.type_id = type.type_id','left')
-            ->join('unit as buy_unit', 'buy_unit.unit_id = stock.buy_unit_id')
-            ->join('unit as sale_unit', 'sale_unit.unit_id = stock.sale_unit_id')
-            ->join('money_unit as buy_money_unit', 'buy_money_unit.money_unit_id = stock.buy_money_unit_id')
-            ->join('money_unit as sale_money_unit', 'sale_money_unit.money_unit_id = stock.sale_money_unit_id')
-            ->select('stock.*, type.type_title, stock_recipe.*, buy_unit.unit_value as buy_unit_value, sale_unit.unit_id as sale_unit_id, buy_money_unit.money_icon as buy_money_icon, sale_money_unit.money_icon as sale_money_icon, buy_money_unit.money_title as buy_money_title, sale_money_unit.money_title as sale_money_title, recipe_item.*')
-            ->where('stock_recipe.stock_id', $palet_id)
-            ->findAll();
-
+        // Paletin reçetesini getir (koli bilgileri)
+        $palet_recipe_items = $this->getRecipeItems($palet_id);
         
-
-        $type_items = $this->modelType->where('user_id', session()->get('user_id'))->where('status', 'active')->orderBy('order', 'ASC')->findAll();
-        $recipe_item = $this->modelStockRecipe->join('stock', 'stock.stock_id = stock_recipe.stock_id')
-            ->where('stock.user_id', session()->get('user_id'))
-            ->where('stock_recipe.stock_id', $palet_id)->first();
+        // Stok analizi için gerekli değişkenler
+        $stok_analizi = [];
+        $maksimum_koli = PHP_INT_MAX;
+        $toplam_urun_sayisi = 0;
+        $eksik_urunler = [];
+        $yeterli_urunler = [];
         
-
-        // $stock_item['stock_total_amount'] = $this->sonStokBilgisi($stock_item['stock_id']);
-        $stock_item['stock_total_amount'] = $this->getStockQuantity($palet_id, $stock_item);
-
-        # TODO: Bütün ürünlerin total_costlarını toplayan bir query yazılacak
-        ## SUM(recipe_item.total_cost) as all_total_cost
-        ### $builder->select('(SELECT SUM(payments.amount) FROM payments WHERE payments.invoice_id=4) AS amount_paid', false);
-
-        $stock_operation = $this->modelStockOperation
-        ->join('operation', 'operation.operation_id = stock_operation.operation_id')
-        ->where("stock_operation.stock_id", $palet_id)
-        ->findAll();
-    
-    $operation_amounts = []; // Operasyon türlerine göre miktarları tutacak dizi
-    
-    // Tüm operasyon türleri için döngü oluştur
-    foreach ($stock_operation as $operation_stock) {
-        $operations = $this->modelProductionOperation
-            ->where("operation_id", $operation_stock["operation_id"])
-            ->where("stock_id", $operation_stock["stock_id"])
-            ->findAll();
-    
-        // Her bir operasyon için miktarları hesapla
-        foreach ($operations as $operation) {
-            $operation_id = $operation['operation_id'];
-            $status = $operation['status'];
-            $stock_amount = $operation['stock_amount'];
-    
-            // İlgili operasyon türü için bekleyen ve işlemde olan miktarları güncelle
-            if (!isset($operation_amounts[$operation_id])) {
-                $operation_amounts[$operation_id] = [
-                    'title' => $operation_stock['operation_title'],
-                    'beklemede' => 0,
-                    'islemde' => 0
-                ];
-            }
-    
-            if ($status == "Beklemede") {
-                $operation_amounts[$operation_id]['beklemede'] += $stock_amount;
-            } elseif ($status == "İşlemde") {
-                $operation_amounts[$operation_id]['islemde'] += $stock_amount;
-            }elseif ($status == "Durdu") {
-                $operation_amounts[$operation_id]['islemde'] += $stock_amount;
-            }
-            elseif ($status == "Devam") {
-                $operation_amounts[$operation_id]['islemde'] += $stock_amount;
+        // Her koli için kategori_id 113 kontrolü yap ve stok analizi
+        foreach ($palet_recipe_items as &$koli_item) {
+            if ($koli_item['category_id'] == 113) {
+                // Bu kolinin de reçetesi var, onu da getir
+                $koli_item['koli_reçetesi'] = $this->getRecipeItems($koli_item['stock_id']);
+                
+                // Koli içindeki ürün sayısı
+                $koli_icindeki_urun_sayisi = count($koli_item['koli_reçetesi']);
+                $toplam_urun_sayisi += $koli_icindeki_urun_sayisi;
+                
+                // Her ürün için stok kontrolü
+                foreach ($koli_item['koli_reçetesi'] as $urun) {
+                    $urun_id = $urun['stock_id'];
+                    $urun_adi = $urun['stock_title'];
+                    $koli_icindeki_miktar = floatval($urun['used_amount']);
+                    $palet_istegi = floatval($koli_item['used_amount']);
+                    
+                    // Gerekli toplam miktar
+                    $gerekli_miktar = $palet_istegi * $koli_icindeki_miktar;
+                    
+                    // Mevcut stok - ürün ID'sini gönder
+                    $mevcut_stok = $this->getStockQuantity($urun_id);
+                    
+                    // Oluşturulabilir koli sayısı (palet isteği ile sınırla)
+                    $olusturulabilir_koli = min($palet_istegi, floor($mevcut_stok / $koli_icindeki_miktar));
+                    
+                    // Maksimum koli sayısını güncelle
+                    $maksimum_koli = min($maksimum_koli, $olusturulabilir_koli);
+                    
+                    // Ürün detayları
+                    $urun_detay = [
+                        'urun_id' => $urun_id,
+                        'urun_adi' => $urun_adi,
+                        'koli_icindeki_miktar' => $koli_icindeki_miktar,
+                        'palet_istegi' => $palet_istegi,
+                        'gerekli_miktar' => $gerekli_miktar,
+                        'mevcut_stok' => $mevcut_stok,
+                        'eksik_miktar' => max(0, $gerekli_miktar - $mevcut_stok),
+                        'olusturulabilir_koli' => $olusturulabilir_koli,
+                        'durum' => $mevcut_stok >= $gerekli_miktar ? 'YETERLI' : 'EKSİK'
+                    ];
+                    
+                    $stok_analizi[] = $urun_detay;
+                    
+                    // Eksik ve yeterli ürünleri ayır
+                    if ($mevcut_stok < $gerekli_miktar) {
+                        $eksik_urunler[] = $urun_detay;
+                    } else {
+                        $yeterli_urunler[] = $urun_detay;
+                    }
+                }
             }
         }
-        if (!isset($operation_amounts[$operation_stock["operation_id"]])) {
-            $operation_amounts[$operation_stock["operation_id"]] = [
-                'title' => $operation_stock['operation_title'],
-                'beklemede' => 0,
-                'islemde' => 0
+
+        
+        // Genel durum belirleme
+        $genel_durum = 'YETERLI';
+        if (count($eksik_urunler) > 0) {
+            $genel_durum = $maksimum_koli > 0 ? 'KISMEN_YETERLI' : 'YETERSIZ';
+        }
+        
+        // Çıkarılacak stok listesi
+        $cikarilacak_stok = [];
+        foreach ($stok_analizi as $urun) {
+            $cikarilacak_stok[] = [
+                'urun_id' => $urun['urun_id'],
+                'urun_adi' => $urun['urun_adi'],
+                'cikarilacak_miktar' => $maksimum_koli * $urun['koli_icindeki_miktar']
             ];
         }
-    }
-    $stock_items = $this->modelStock->where('user_id', session()->get('user_id'))->findAll();
 
-        
-
-
+        // JSON response döndür - Detaylı stok analizi
+        return $this->response->setJSON([
+            'icon' => 'success',
+            'title' => 'Stok Analizi Tamamlandı',
+            'text' => 'Palet stok kontrolü başarıyla yapıldı',
+            'data' => [
+                'palet_bilgisi' => [
+                    'stock_id' => $stock_item['stock_id'],
+                    'stock_title' => $stock_item['stock_title'],
+                    'stock_code' => $stock_item['stock_code'],
+                    'istenen_koli' => !empty($palet_recipe_items) ? intval($palet_recipe_items[0]['used_amount']) : 0,
+                    'toplam_urun_sayisi' => $toplam_urun_sayisi
+                ],
+                'stok_analizi' => [
+                    'maksimum_olusturulabilir_koli' => $maksimum_koli,
+                    'genel_durum' => $genel_durum,
+                    'yeterli_urun_sayisi' => count($yeterli_urunler),
+                    'eksik_urun_sayisi' => count($eksik_urunler),
+                    'urun_detaylari' => $stok_analizi
+                ],
+                'eksik_urunler' => $eksik_urunler,
+                'yeterli_urunler' => $yeterli_urunler,
+                'cikarilacak_stok' => [
+                    'toplam_koli' => $maksimum_koli,
+                    'urun_listesi' => $cikarilacak_stok
+                ],
+                'palet_reçetesi' => $palet_recipe_items
+            ]
+        ]);
 
         }else{
             return $this->response->setJSON(['icon' => 'error', 'title' => 'Hata', 'text' => 'Palet bulunamadı']);
         }
     }
 
+    /**
+     * Reçete elemanlarını getir
+     */
+    private function getRecipeItems($stock_id)
+    {
+        return $this->modelRecipeItem
+            ->join('stock_recipe', 'stock_recipe.recipe_id = recipe_item.recipe_id')
+            ->join('stock', 'recipe_item.stock_id = stock.stock_id')
+            ->join('type', 'stock.type_id = type.type_id', 'left')
+            ->join('unit as buy_unit', 'buy_unit.unit_id = stock.buy_unit_id')
+            ->join('unit as sale_unit', 'sale_unit.unit_id = stock.sale_unit_id')
+            ->join('money_unit as buy_money_unit', 'buy_money_unit.money_unit_id = stock.buy_money_unit_id')
+            ->join('money_unit as sale_money_unit', 'sale_money_unit.money_unit_id = stock.sale_money_unit_id')
+            ->select('stock.*, type.type_title, stock_recipe.*, buy_unit.unit_value as buy_unit_value, sale_unit.unit_id as sale_unit_id, buy_money_unit.money_icon as buy_money_icon, sale_money_unit.money_icon as sale_money_icon, buy_money_unit.money_title as buy_money_title, sale_money_unit.money_title as sale_money_title, recipe_item.*')
+            ->where('stock_recipe.stock_id', $stock_id)
+            ->findAll();
+    }
 
     public function getStockQuantity($stockId)
     {
-        $stock = $this->modelStock->find($stockId);
-        if (!$stock) {
-            return null; // Stok bulunamazsa null döndür
-        }
-
-        if ($stock['parent_id'] == 0) {
-            $subStocks = $this->modelStockWarehouseQuantity->where('parent_id', $stockId)->findAll();
-            $totalQuantity = 0;
-            foreach ($subStocks as $subStock) {
-                $totalQuantity += $this->getStockQuantity($subStock['stock_id']);
-            }
-            return $totalQuantity;
-        } else {
-            return 0;
-        }
+        // Stock tablosundan direkt stock_total_quantity alanını al
+        $stock = $this->modelStock->select('stock_total_quantity')->find($stockId);
+        return $stock ? floatval($stock['stock_total_quantity']) : 0;
     }
 
+
+
+    public function printEtiket()
+    {
+        $palet_id = $this->request->getPost('palet_id');
+        $koli_sayisi = $this->request->getPost('koli_sayisi');
+        
+        // Palet bilgilerini al (cari bilgileri ile birlikte)
+        $palet_bilgisi = $this->modelStock->join('money_unit as buy_money_unit', 'buy_money_unit.money_unit_id = stock.buy_money_unit_id')
+            ->join('unit as sale_unit', 'sale_unit.unit_id = stock.sale_unit_id')
+            ->join('cari', 'cari.cari_id = stock.cari_id')
+            ->where('stock.user_id', session()->get('user_id'))
+            ->where('stock.stock_id', $palet_id)
+            ->select('buy_money_unit.money_icon as buy_money_icon, buy_money_unit.money_code as buy_money_code, stock.*, sale_unit.*, cari.name, cari.surname, cari.invoice_title')
+            ->first();
+
+        if (!$palet_bilgisi) {
+            return $this->response->setJSON(['icon' => 'error', 'title' => 'Hata', 'text' => 'Palet bulunamadı']);
+        }
+
+        // Cari adını belirle
+        $cari_adi = '';
+        if (!empty($palet_bilgisi['name']) && !empty($palet_bilgisi['surname'])) {
+            $cari_adi = trim($palet_bilgisi['name'] . ' ' . $palet_bilgisi['surname']);
+        } elseif (!empty($palet_bilgisi['invoice_title'])) {
+            $cari_adi = $palet_bilgisi['invoice_title'];
+        } else {
+            $cari_adi = 'KELEŞOĞLU GRUP'; // Varsayılan
+        }
+
+        // Paletin reçetesini getir (koli bilgileri)
+        $palet_recipe_items = $this->getRecipeItems($palet_id);
+        
+        // Her koli için kategori_id 113 kontrolü yap ve reçetelerini al
+        foreach ($palet_recipe_items as &$koli_item) {
+            if ($koli_item['category_id'] == 113) {
+                // Bu kolinin de reçetesi var, onu da getir
+                $koli_item['koli_reçetesi'] = $this->getRecipeItems($koli_item['stock_id']);
+            }
+        }
+
+        // Çıkarılacak stok hesaplama
+        $cikarilacak_stok = [];
+        foreach ($palet_recipe_items as $koli_item) {
+            if ($koli_item['category_id'] == 113 && isset($koli_item['koli_reçetesi'])) {
+                foreach ($koli_item['koli_reçetesi'] as $urun) {
+                    $cikarilacak_stok[] = [
+                        'urun_id' => $urun['stock_id'],
+                        'urun_adi' => $urun['stock_title'],
+                        'cikarilacak_miktar' => $koli_sayisi * $urun['used_amount']
+                    ];
+                }
+            }
+        }
+
+        // Barkod oluştur
+        $barcode_svg = $this->generate_barcode($palet_id);
+        
+        // Etiket verilerini hazırla
+        $etiket_data = [
+            'palet_bilgisi' => $palet_bilgisi,
+            'cari_adi' => $cari_adi,
+            'koli_sayisi' => $koli_sayisi,
+            'palet_recipe_items' => $palet_recipe_items,
+            'cikarilacak_stok' => $cikarilacak_stok,
+            'barcode_svg' => $barcode_svg,
+            'yazdirma_tarihi' => date('Y-m-d H:i:s'),
+            'kullanici_id' => session()->get('user_id')
+        ];
+
+        ///     FATURA KESME İŞLEMİ BAŞLANGIÇ VE STOK DÜŞÜMÜ
+
+
+        $stock_item = $stokBilgisi;
+        $yeni_stok_miktari = $stokBilgisi['stock_total_quantity'] - $kullanilacak_miktar;
+
+        
+
+       
+
+        $user_item_tedarik = $palet_bilgisi['cari_id'];
+        $user_item_depo = 1;
+
+        $buy_unit_price = convert_number_for_sql($stock_item["sale_unit_price"]);
+
+        $warehouse_id = $user_item_depo;
+        $supplier_id =  $user_item_tedarik;
+        // $stock_quantity = convert_number_for_sql($row['miktar']);
+        $stock_quantity = $yeni_stok_miktari;
+        $transaction_note = $uretim_no . " - Satış Sonrası Otomatik Stoktan Çıkış";
+        $warehouse_address = "Depo";
+        
+        $buy_money_unit_id = 1;
+
+     
+        // print_r("burdasın");
+        // exit();
+        $currency_amount = 1;
+
+
+        // tedarikçi varsa finansal hareket ve gelen fatura tipinde fatura oluşturuyoruz
+        $financialMovement_id = 0;
+        if ($supplier_id != 0) {
+
+
+            $supplier = $this->modelCari->join('address', 'cari.cari_id = address.cari_id', 'left')->where('cari.cari_id', $supplier_id)->where('cari.user_id', session()->get('user_id'))->first();
+
+            $stock_entry_prefix = "STKTDRK";
+
+            $stock_total = convert_number_uretim($stock_quantity) * $buy_unit_price;
+
+            [$transaction_direction, $amount_to_be_processed] = ['entry', $stock_total * -1];
+
+            $create_sale_order_code = str_pad(mt_rand(1, 999999), 6, '0', STR_PAD_LEFT);
+            $invoice_no = 'STK-'.$create_sale_order_code;
+
+              // fatura kayıt oluşturuyoruz
+              $insert_invoice_data = [
+                'user_id' => session()->get('user_id'),
+                'money_unit_id' => $buy_money_unit_id,
+                'sale_type' => "quick",
+                'invoice_no' => $invoice_no,
+                'invoice_direction' => 'outgoing_invoice',
+                'invoice_date' => new Time('now', 'Turkey', 'en_US'),
+                'expiry_date' => new Time('now', 'Turkey', 'en_US'),
+                'currency_amount' => 1,
+                'invoice_note' => $transaction_note,    
+                'stock_total' => $stock_quantity * $buy_unit_price,
+                'stock_total_try' => ($stock_quantity * $buy_unit_price) * floatval(str_replace(',', '.', $currency_amount)),
+                'sub_total' => $stock_quantity * $buy_unit_price,
+                'sub_total_try' => ($stock_quantity * $buy_unit_price) * floatval(str_replace(',', '.', $currency_amount)),
+                'grand_total' => $stock_quantity * $buy_unit_price,
+                'grand_total_try' => ($stock_quantity * $buy_unit_price) * floatval(str_replace(',', '.', $currency_amount)),
+                'amount_to_be_paid' => $stock_quantity * $buy_unit_price,
+                'amount_to_be_paid_try' => ($stock_quantity * $buy_unit_price) * floatval(str_replace(',', '.', $currency_amount)),
+                'cari_identification_number' => $supplier['identification_number'],
+                'cari_tax_administration' => $supplier['tax_administration'],
+                'cari_id' => $user_item_tedarik,
+                'cari_invoice_title' => $supplier['invoice_title'] == '' ? $supplier['name'] . " " . $supplier['surname'] : $supplier['invoice_title'],
+                'cari_name' => $supplier['name'],
+                'cari_surname' => $supplier['surname'],
+                'cari_obligation' => $supplier['obligation'],
+                'cari_company_type' => $supplier['company_type'],
+                'cari_phone' => $supplier['cari_phone'],
+                'cari_email' => $supplier['cari_email'],
+
+                'address_country' => $supplier['address_country'],
+                'address_city' => isset($supplier['address_city_name']) ? $supplier['address_city_name'] : "",
+                'address_city_plate' => isset($supplier['address_city']) ? $supplier['address_city'] : "",
+                'address_district' => isset($supplier['address_district']) ? $supplier['address_district'] : "",
+                'address_zip_code' => $supplier['zip_code'],
+                'address' => $supplier['address'],
+
+                'invoice_status_id' => "1",
+            ];
+
+            // print_r(str_replace(',', '.', $stock_quantity) * str_replace(',', '.', $buy_unit_price));
+            // print_r((str_replace(',', '.', $stock_quantity) * str_replace(',', '.', $buy_unit_price)) * str_replace(',', '.', $currency_amount));
+
+            $this->modelInvoice->insert($insert_invoice_data);
+            $invoice_id = $this->modelInvoice->getInsertID();
+
+       
+
+            $currentDateTime = new Time('now', 'Turkey', 'en_US');
+            $currency_amount = str_replace(',', '.', $this->request->getPost('currency_amount')) ?? 1;
+            $last_transaction = $this->modelFinancialMovement->where('user_id', session()->get('user_id'))->orderBy('transaction_counter', 'DESC')->first();
+            if ($last_transaction) {
+                $transaction_counter = $last_transaction['transaction_counter'] + 1;
+            } else {
+                $transaction_counter = 1;
+            }
+            $transaction_number = $stock_entry_prefix . str_pad($transaction_counter, 6, '0', STR_PAD_LEFT);
+            $insert_financial_movement_data = [
+                'user_id' => session()->get('user_id'),
+                'cari_id' => $supplier_id,
+                'money_unit_id' => $buy_money_unit_id,
+                'transaction_number' => $transaction_number,
+                'transaction_direction' => $transaction_direction,
+                'transaction_type' => 'outgoing_invoice',
+                'invoice_id' => $invoice_id,
+                'transaction_tool' => 'not_payroll',
+                'transaction_title' => "Üretim Aşamasında Stoktan Çıkış",
+                'transaction_description' => "Üretim Aşamasında Stoktan Çıkış",
+                'transaction_amount' => $kullanilacak_miktar,
+                'transaction_real_amount' => $kullanilacak_miktar,
+                'transaction_date' => $currentDateTime,
+                'transaction_prefix' => $stock_entry_prefix,
+                'transaction_counter' => $transaction_counter
+            ];
+            $this->modelFinancialMovement->insert($insert_financial_movement_data);
+            $financialMovement_id = $this->modelFinancialMovement->getInsertID();
+
+            $update_cari_data = [
+                'cari_balance' => $supplier['cari_balance'] + $amount_to_be_processed
+            ];
+            $this->modelCari->update($supplier['cari_id'], $update_cari_data);
+
+
+
+          
+
+            //cari harektlerinden ilgili hareket detayına gitmek için
+            $update_modelFinancialMovement_data = [
+                'invoice_id' => $invoice_id,
+            ];
+            $this->modelFinancialMovement->update($financialMovement_id, $update_modelFinancialMovement_data);
+
+
+          
+        }else{
+            $supplier = 0;
+        }
+     
+        
+       
+
+       
+        $insert_StockWarehouseQuantity = [
+            'user_id' => session()->get('user_id'),
+            'warehouse_id' => $warehouse_id,
+            'stock_id' => $stock_item['stock_id'],
+            'parent_id' => $stock_item['parent_id'],
+            'stock_quantity' => $stock_quantity,
+        ];
+
+         //print_r($insert_StockWarehouseQuantity);
+
+         if($stock_item['parent_id'] == 0){
+            $parentStok = $bilesen_stock_id;
+        }else{
+            $parentStok  = $stock_item['parent_id'];
+        }
+
+
+        $addStock = updateStockWarehouseParentQuantity($insert_StockWarehouseQuantity, $warehouse_id, $stock_item['stock_id'], $parentStok, floatval($kullanilacak_miktar), 'remove', $this->modelStockWarehouseQuantity, $this->modelStock);
+       
+
+
+  
+
+        $insert_invoice_row_data = [
+            'user_id' => session()->get('user_id'),
+            'invoice_id' => $invoice_id,
+            'stock_id' => $stock_item['stock_id'],
+            'stock_title' => $stock_item['stock_title'],
+            'stock_amount' => $kullanilacak_miktar,
+
+            'unit_id' => $stock_item['buy_unit_id'],
+            'unit_price' => $buy_unit_price,
+
+            'subtotal_price' => $stock_total,
+
+            'total_price' => $stock_total,
+        ];
+        $this->modelInvoiceRow->insert($insert_invoice_row_data);
+        $invoice_row_id = $this->modelInvoiceRow->getInsertID();
+
+
+
+        $last_stock_barcode_id = 0;
+        $stock_barcode_all = $this->modelStockBarcode->join('stock', 'stock.stock_id = stock_barcode.stock_id')
+            ->where('stock_barcode.stock_id', $stock_item['stock_id'])
+            ->where('stock_barcode.warehouse_id', $warehouse_id)
+            ->findAll();
+
+        // stock_barcode'da used_amount günceller
+        foreach ($stock_barcode_all as $stock_barcode_item) {
+
+            $varMi = $stock_barcode_item['total_amount'] - $stock_barcode_item['used_amount'];
+
+            if ($varMi >= $kullanilacak_miktar) {
+                $stock_movement_prefix = 'TRNSCTN';
+
+                $last_transaction = $this->modelStockMovement->where('user_id', session()->get('user_id'))->orderBy('transaction_counter', 'DESC')->first();
+                if ($last_transaction) {
+                    $transaction_counter = $last_transaction['transaction_counter'] + 1;
+                } else {
+                    $transaction_counter = 1;
+                }
+                $transaction_prefix = "PRF";
+
+                $transaction_number = $transaction_prefix . str_pad($transaction_counter, 6, '0', STR_PAD_LEFT);
+                $insert_stock_movement_data = [
+                    'user_id' => session()->get('user_id'),
+                    'stock_barcode_id' => $stock_barcode_item['stock_barcode_id'],
+                    'invoice_id' => $invoice_id,
+                    'movement_type' => 'outgoing',
+                    'transaction_number' => $transaction_number,
+                    'transaction_note' => null,
+                    'from_warehouse' => $warehouse_id,
+                    'transaction_info' => $transaction_note,
+                    'sale_unit_price' => $stock_item['sale_unit_price'],
+                    'sale_money_unit_id' => $stock_item['sale_money_unit_id'],
+                    'transaction_quantity' => $kullanilacak_miktar,
+                    'transaction_date' => new Time('now', 'Turkey', 'en_US'),
+                    'transaction_prefix' => $transaction_prefix,
+                    'transaction_counter' => $transaction_counter,
+                ];
+                $this->modelStockMovement->insert($insert_stock_movement_data);
+                $stock_movement_id = $this->modelStockMovement->getInsertID();
+
+                $used_amount = $stock_barcode_item['used_amount'] + $kullanilacak_miktar;
+                $stock_barcode_status = $used_amount == $stock_barcode_item['total_amount'] ? 'out_of_stock' : 'available';
+                $update_stock_barcode_data = [
+                    'used_amount' => $used_amount,
+                    'stock_barcode_status' => $stock_barcode_status
+                ];
+                $this->modelStockBarcode->update($stock_barcode_item['stock_barcode_id'], $update_stock_barcode_data);
+
+                $update_invoice_row_data = [
+                    'stock_barcode_id' => $stock_barcode_item['stock_barcode_id'],
+                ];
+                $this->modelInvoiceRow->update($invoice_row_id, $update_invoice_row_data);
+                break 1;
+            }
+        }
+       
+
+
+
+
+
+
+
+        if ($yeni_stok_miktari < 0) {
+            // Burada stok eksikliği durumunda loglama yapabilirsiniz
+            // Stok eksikliği durumu
+            error_log("Stok yetersiz: " . $stokBilgisi['stock_title'] . " Ürün ID: " . $bilesen_stock_id);
+        }
+    
+
+
+        ///     FATURA KESME İŞLEMİ BİTİŞ VE STOK DÜŞÜMÜ BİTİŞ
+
+        // Başarılı response döndür
+        return $this->response->setJSON([
+            'icon' => 'success',
+            'title' => 'Başarılı',
+            'text' => 'Etiket başarıyla hazırlandı',
+            'data' => [
+                'etiket_data' => $etiket_data,
+                'yazdirma_bilgisi' => [
+                    'palet_id' => $palet_id,
+                    'koli_sayisi' => $koli_sayisi,
+                    'toplam_urun_cesidi' => count($cikarilacak_stok),
+                    'yazdirma_tarihi' => date('Y-m-d H:i:s')
+                ]
+            ]
+        ]);
+    }
+
+    public function generate_barcode($code) {
+        $generator = new \Picqer\Barcode\BarcodeGeneratorSVG();
+        $barcode_svg = $generator->getBarcode($code, $generator::TYPE_CODE_128);
+        
+        // Barkodun altına sayıyı da ekle
+        $barcode_with_text = '<div style="text-align: center;">';
+        $barcode_with_text .= $barcode_svg;
+        $barcode_with_text .= '<div style="font-family: monospace; font-size: 14px; font-weight: bold; margin-top: 5px; color: #333;">' . $code . '</div>';
+        $barcode_with_text .= '</div>';
+        
+        return $barcode_with_text;
+    }
 }
