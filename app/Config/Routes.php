@@ -171,7 +171,7 @@ $routes->group('tportal', ['filter' => 'AuthCheck'], function($routes){
     $routes->get('getNotes/(:any)', 'TikoERP\Cari::getNotes/$1', ['as' => 'tportal.getNotes']);
 
 
-
+    $routes->post('paletSatisControl', 'TikoERP\Home::paletSatisControl', ['as' => 'tportal.paletSatisControl']);
 
 
     $routes->group('invoice',  function($routes){
@@ -952,7 +952,8 @@ $routes->post('api/tikoportal/fatura/alis/getir', 'Api\TikoPortal::fatura_alis_g
 $routes->get('api/tikoportal/fatura/alis/cari/guncelle', 'Api\TikoPortal::alis_fatura_cari_guncelle', ['as' => 'tportal.fatura.alis_cari_guncelle']);
 $routes->post('api/tikoportal/fatura/alis/cari/guncelle', 'Api\TikoPortal::alis_fatura_cari_guncelle', ['as' => 'tportal.fatura.alis_cari_guncelle']);
 
-
+// Palet Etiket Yazdırma
+$routes->post('api/tikoportal/palet/etiket/yazdir', 'TikoERP\Home::printEtiket', ['as' => 'tportal.printEtiket']);
 
 $routes->get('sysmond/index', 'Api\Sysmond::index');
 $routes->get('sysmond/check', 'Api\Sysmond::stock_and_sysmond');
